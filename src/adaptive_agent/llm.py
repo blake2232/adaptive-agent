@@ -22,7 +22,7 @@ class OpenAICompatLLM(LLM):
 
     def complete(self, messages):
         body = json.dumps({"model": self.model, "messages": messages, "temperature": self.temperature}).encode()
-        req = urllib.request.Request(self.base_url + "/chat/completions", data=body, headers={
+        req = urllib.request.Request(self.base_url + "/chat/completions", data=body, headers={"User-Agent": "adaptive-agent/0.1",
             "Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"})
         with urllib.request.urlopen(req, timeout=120) as r:
             return json.loads(r.read())["choices"][0]["message"]["content"]
